@@ -7,4 +7,4 @@ dist/
 .env.production
 *.log
 .DS_Store
-wrangler.toml
+
