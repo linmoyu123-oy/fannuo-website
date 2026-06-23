@@ -12,9 +12,12 @@ export default function ContactPage() {
   const [companyInfo, setCompanyInfo] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    fetch('/api/company').then(r => r.json()).then((d: any) => {
-      setCompanyInfo(d);
-    }).catch(() => {});
+    (async () => {
+      try {
+        const res = await fetch('/api/company');
+        setCompanyInfo(await res.json() as Record<string, string>);
+      } catch {}
+    })();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {

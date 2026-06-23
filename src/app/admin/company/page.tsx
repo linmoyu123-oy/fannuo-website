@@ -19,9 +19,12 @@ export default function AdminCompanyPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/company').then(r => r.json()).then((d: any) => {
-      setForm(d);
-    }).catch(() => {});
+    (async () => {
+      try {
+        const res = await fetch('/api/company');
+        setForm(await res.json() as Record<string, string>);
+      } catch {}
+    })();
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
