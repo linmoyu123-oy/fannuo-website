@@ -12,7 +12,7 @@ export default function AboutPage() {
   const [companyName, setCompanyName] = useState('');
 
   useEffect(() => {
-    fetch('/api/company').then(r => r.json() as Promise<Record<string, string>>).then(d => {
+    fetch('/api/company').then(r => r.json()).then((d: any) => {
       if (d.about_content) setContent(d.about_content);
       if (d.company_name) setCompanyName(d.company_name);
     }).catch(() => {});

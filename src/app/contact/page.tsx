@@ -12,7 +12,7 @@ export default function ContactPage() {
   const [companyInfo, setCompanyInfo] = useState<Record<string, string>>({});
 
   useEffect(() => {
-    fetch('/api/company').then(r => r.json() as Promise<Record<string, string>>).then(d => {
+    fetch('/api/company').then(r => r.json()).then((d: any) => {
       setCompanyInfo(d);
     }).catch(() => {});
   }, []);

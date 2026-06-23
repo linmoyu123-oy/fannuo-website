@@ -32,7 +32,7 @@ export default function HomePage() {
     fetch('/api/products').then(r => r.json()).then(d => {
       if (Array.isArray(d)) setProducts(d.slice(0, 4));
     }).catch(() => {});
-    fetch('/api/company').then(r => r.json() as Promise<Record<string, string>>).then(d => {
+    fetch('/api/company').then(r => r.json()).then((d: any) => {
       if (d.about_content) {
         const el = document.getElementById('aboutPreview');
         if (el) el.textContent = d.about_content;

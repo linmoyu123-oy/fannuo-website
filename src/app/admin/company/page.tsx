@@ -19,7 +19,7 @@ export default function AdminCompanyPage() {
   const [saved, setSaved] = useState(false);
 
   useEffect(() => {
-    fetch('/api/company').then(r => r.json() as Promise<Record<string, string>>).then(d => {
+    fetch('/api/company').then(r => r.json()).then((d: any) => {
       setForm(d);
     }).catch(() => {});
   }, []);
