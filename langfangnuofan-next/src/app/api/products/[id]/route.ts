@@ -1,4 +1,4 @@
-import { getRequestContext } from '@cloudflare/next-on-pages';
+﻿import { getRequestContext } from '@cloudflare/next-on-pages';
 import { NextRequest, NextResponse } from 'next/server';
 import { adminGuard } from '@/lib/auth';
 
@@ -15,7 +15,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const existing = await db.prepare('SELECT id FROM products WHERE id = ?').bind(id).first();
     if (!existing) {
-      return NextResponse.json({ error: '产品不存�? }, { status: 404 });
+      return NextResponse.json({ error: '浜у搧涓嶅瓨鍦? }, { status: 404 });
     }
 
     await db.prepare(`
