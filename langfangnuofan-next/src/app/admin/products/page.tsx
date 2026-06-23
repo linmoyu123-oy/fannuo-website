@@ -5,12 +5,11 @@ import { useState, useEffect } from 'react';
 interface Product {
   id: number;
   title: string;
-  description: string;
-  image: string;
   category_id: number;
+  image: string;
+  description: string;
   specs: string;
-  is_active: number;
-  category_name?: string;
+  updated_at: string;
 }
 
 interface Category {
