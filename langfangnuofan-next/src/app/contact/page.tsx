@@ -38,7 +38,7 @@ export default function ContactPage() {
         setSuccess(true);
         setForm({ name: '', email: '', phone: '', company: '', message: '' });
       } else {
-        const data = await res.json();
+        const data = await res.json() as { error?: string };
         setError(data.error || '提交失败');
       }
     } catch {
