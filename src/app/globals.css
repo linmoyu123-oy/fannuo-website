@@ -1,0 +1,116 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-gray-800 antialiased;
+  }
+}
+
+@layer components {
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+
+  .btn {
+    @apply inline-flex items-center justify-center px-6 py-2.5 rounded-lg font-medium text-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  .btn-primary {
+    @apply btn bg-primary-900 text-white hover:bg-primary-800 focus:ring-primary-500;
+  }
+
+  .btn-secondary {
+    @apply btn bg-gray-100 text-gray-700 hover:bg-gray-200 focus:ring-gray-400;
+  }
+
+  .btn-danger {
+    @apply btn bg-red-600 text-white hover:bg-red-700 focus:ring-red-500;
+  }
+
+  .btn-sm {
+    @apply px-3 py-1.5 text-xs;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent transition-colors;
+  }
+
+  .textarea-field {
+    @apply input-field resize-y min-h-[100px];
+  }
+
+  .select-field {
+    @apply input-field bg-white;
+  }
+
+  .card {
+    @apply bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden;
+  }
+
+  .table-wrap {
+    @apply overflow-x-auto;
+  }
+
+  .data-table {
+    @apply w-full text-sm;
+  }
+
+  .data-table th {
+    @apply text-left px-4 py-3 bg-gray-50 text-gray-600 font-semibold border-b border-gray-200 whitespace-nowrap;
+  }
+
+  .data-table td {
+    @apply px-4 py-3 border-b border-gray-100;
+  }
+
+  .data-table tr:hover td {
+    @apply bg-gray-50;
+  }
+
+  .section-title {
+    @apply text-3xl font-bold text-center mb-12;
+  }
+
+  .section-title::after {
+    content: '';
+    @apply block w-16 h-1 bg-primary-900 mx-auto mt-4 rounded;
+  }
+
+  .page-banner {
+    @apply bg-gradient-to-r from-primary-900 to-primary-700 text-white py-16 md:py-24 text-center;
+  }
+
+  .page-banner h1 {
+    @apply text-3xl md:text-4xl font-bold mb-2;
+  }
+
+  .page-banner p {
+    @apply text-primary-200 text-sm md:text-base;
+  }
+
+  .admin-layout {
+    @apply min-h-screen flex;
+  }
+
+  .admin-sidebar {
+    @apply w-56 bg-primary-900 text-white flex-shrink-0 hidden md:flex flex-col;
+  }
+
+  .admin-main {
+    @apply flex-1 bg-gray-50 min-h-screen;
+  }
+
+  .admin-header {
+    @apply bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between sticky top-0 z-30;
+  }
+
+  .modal-overlay {
+    @apply fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4;
+  }
+
+  .modal-content {
+    @apply bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto p-6;
+  }
+}

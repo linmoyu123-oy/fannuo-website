@@ -1,0 +1,121 @@
+'use client';
+
+import { useState, useEffect, useCallback } from 'react';
+import PublicHeader from '@/components/PublicHeader';
+import PublicFooter from '@/components/PublicFooter';
+import ProductCard from '@/components/ProductCard';
+
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  image: string;
+  category_id: number;
+  specs: string;
+  category_name?: string;
+}
+
+interface Category {
+  id: number;
+  name: string;
+}
+
+export default function ProductsPage() {
+  const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [search, setSearch] = useState('');
+  const [catFilter, setCatFilter] = useState('');
+  const [selected, setSelected] = useState<Product | null>(null);
+
+  useEffect(() => {
+    fetch('/api/products').then(r => r.json()).then(d => {
+      if (Array.isArray(d)) setProducts(d);
+    }).catch(() => {});
+    fetch('/api/categories').then(r => r.json()).then(d => {
+      if (Array.isArray(d)) setCategories(d);
+    }).catch(() => {});
+  }, []);
+
+  const filtered = products.filter((p) => {
+    const matchSearch = !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.description.toLowerCase().includes(search.toLowerCase());
+    const matchCat = !catFilter || p.category_id === Number(catFilter);
+    return matchSearch && matchCat;
+  });
+
+  const getCategoryName = useCallback((catId: number) => {
+    return categories.find(c => c.id === catId)?.name || '';
+  }, [categories]);
+
+  return (
+    <>
+      <PublicHeader />
+      <section className="page-banner">
+        <div className="container-custom">
+          <h1>产品中心</h1>
+          <p>Products</p>
+        </div>
+      </section>
+
+      <section className="py-10 md:py-16">
+        <div className="container-custom">
+          <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <input
+              type="text"
+              placeholder="搜索产品..."
+              className="input-field flex-1"
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+            />
+            <select className="select-field sm:w-48" value={catFilter} onChange={(e) => setCatFilter(e.target.value)}>
+              <option value="">全部分类</option>
+              {categories.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
+            </select>
+          </div>
+
+          {filtered.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+              {filtered.map((p) => (
+                <ProductCard
+                  key={p.id}
+                  product={{ ...p, category_name: getCategoryName(p.category_id) }}
+                  onDetail={(prod) => setSelected({ ...prod, category_name: getCategoryName(prod.category_id) })}
+                />
+              ))}
+            </div>
+          ) : (
+            <p className="text-center text-gray-400 py-20">暂无匹配产品</p>
+          )}
+        </div>
+      </section>
+
+      {/* Detail Modal */}
+      {selected && (
+        <div className="modal-overlay" onClick={() => setSelected(null)}>
+          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+            <button className="float-right text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelected(null)}>&times;</button>
+            {selected.image && (
+              <img src={selected.image} alt={selected.title} className="w-full h-64 object-cover rounded-lg mb-4" />
+            )}
+            <h2 className="text-2xl font-bold text-primary-900 mb-2">{selected.title}</h2>
+            {selected.category_name && (
+              <span className="inline-block bg-primary-50 text-primary-700 text-xs px-2.5 py-1 rounded-full mb-3">
+                {selected.category_name}
+              </span>
+            )}
+            <p className="text-gray-600 leading-relaxed mb-4">{selected.description}</p>
+            {selected.specs && (
+              <div className="bg-gray-50 rounded-lg p-4">
+                <strong className="text-sm text-gray-700">规格参数</strong>
+                <pre className="text-sm text-gray-600 mt-2 whitespace-pre-wrap">{selected.specs}</pre>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      <PublicFooter />
+    </>
+  );
+}
