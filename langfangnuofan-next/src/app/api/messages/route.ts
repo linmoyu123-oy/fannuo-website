@@ -20,7 +20,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, phone, company, message } = await request.json();
+    const { name, email, phone, company, message } = await request.json() as { name: string; email: string; phone?: string; company?: string; message: string };
 
     if (!name || !email || !message) {
       return NextResponse.json({ error: '姓名、邮箱和留言为必填项' }, { status: 400 });

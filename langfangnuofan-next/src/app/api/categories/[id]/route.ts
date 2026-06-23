@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id: idStr } = await params;
     const id = parseInt(idStr);
-    const { name, slug, sort_order } = await request.json();
+    const { name, slug, sort_order } = await request.json() as { name: string; slug: string; sort_order?: number };
     const db = getRequestContext().env.DB;
 
     const existing = await db.prepare('SELECT id FROM categories WHERE id = ?').bind(id).first();

@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
   if (guard) return guard;
 
   try {
-    const { title, category_id, image, description, specs } = await request.json();
+    const { title, category_id, image, description, specs } = await request.json() as { title: string; category_id?: number; image?: string; description?: string; specs?: string };
     if (!title) {
       return NextResponse.json({ error: '产品名称不能为空' }, { status: 400 });
     }

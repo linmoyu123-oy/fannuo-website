@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const guard = await adminGuard(request);
   if (guard) return guard;
   try {
-    const { name, slug, sort_order } = await request.json();
+    const { name, slug, sort_order } = await request.json() as { name: string; slug: string; sort_order?: number };
     if (!name || !slug) {
       return NextResponse.json({ error: '名称和Slug不能为空' }, { status: 400 });
     }

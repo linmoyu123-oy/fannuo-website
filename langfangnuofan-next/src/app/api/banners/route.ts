@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
   const guard = await adminGuard(request);
   if (guard) return guard;
   try {
-    const { title, image, link } = await request.json();
+    const { title, image, link } = await request.json() as { title: string; image: string; link?: string };
     if (!image) {
       return NextResponse.json({ error: '图片URL不能为空' }, { status: 400 });
     }
@@ -53,7 +53,7 @@ export async function PUT(request: NextRequest) {
       return NextResponse.json({ error: '缺少ID' }, { status: 400 });
     }
 
-    const { title, image, link } = await request.json();
+    const { title, image, link } = await request.json() as { title: string; image: string; link?: string };
     const db = getRequestContext().env.DB;
     await db.prepare(
       'UPDATE banners SET title = ?, image = ?, link = ? WHERE id = ?'

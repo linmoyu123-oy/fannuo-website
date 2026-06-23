@@ -6,9 +6,9 @@ export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
-    const { password } = await request.json();
+    const { password } = await request.json() as { password: string };
     const ctx = getRequestContext();
-    const adminPassword = ctx.env.ADMIN_PASSWORD;
+    const adminPassword = ctx.env.ADMIN_PASSWORD as string | undefined;
 
     if (!adminPassword || password !== adminPassword) {
       return NextResponse.json({ error: '密码错误' }, { status: 401 });

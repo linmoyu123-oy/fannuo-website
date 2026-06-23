@@ -10,7 +10,7 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
   try {
     const { id: idStr } = await params;
     const id = parseInt(idStr);
-    const { title, category_id, image, description, specs } = await request.json();
+    const { title, category_id, image, description, specs } = await request.json() as { title: string; category_id?: number; image?: string; description?: string; specs?: string };
     const db = getRequestContext().env.DB;
 
     const existing = await db.prepare('SELECT id FROM products WHERE id = ?').bind(id).first();
