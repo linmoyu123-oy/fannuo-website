@@ -15,14 +15,14 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
     const existing = await db.prepare('SELECT id FROM categories WHERE id = ?').bind(id).first();
     if (!existing) {
-      return NextResponse.json({ error: '鍒嗙被涓嶅瓨鍦? }, { status: 404 });
+      return NextResponse.json({ error: '分类不存在' }, { status: 404 });
     }
 
     const slugConflict = await db.prepare(
       'SELECT id FROM categories WHERE slug = ? AND id != ?'
     ).bind(slug, id).first();
     if (slugConflict) {
-      return NextResponse.json({ error: 'Slug 宸茶鍏朵粬鍒嗙被浣跨敤' }, { status: 400 });
+      return NextResponse.json({ error: 'Slug 已被其他分类使用' }, { status: 400 });
     }
 
     await db.prepare(
