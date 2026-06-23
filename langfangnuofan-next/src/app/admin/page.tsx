@@ -28,9 +28,9 @@ export default function AdminLoginPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ password }),
       });
-      const data = await res.json();
+      const data = await res.json() as { token?: string; error?: string };
       if (res.ok) {
-        localStorage.setItem('admin_token', data.token);
+        localStorage.setItem('admin_token', data.token || '');
         router.replace('/admin/dashboard');
       } else {
         setError(data.error || '密码错误');
