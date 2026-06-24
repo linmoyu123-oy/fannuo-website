@@ -13,24 +13,45 @@ interface Banner {
 export default function HeroBanner() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [current, setCurrent] = useState(0);
+  const [ar, setAr] = useState(16 / 9);
   const { t } = useLang();
 
   useEffect(() => {
     fetch('/api/banners')
       .then((r) => r.json())
       .then((data) => {
-        if (Array.isArray(data) && data.length > 0) setBanners(data);
+        if (Array.isArray(data) && data.length > 0) {
+          setBanners(data);
+          const img = new Image();
+          img.onload = () => setAr(img.naturalWidth / img.naturalHeight);
+          img.src = data[0].image;
+        }
       })
       .catch(() => {});
   }, []);
 
+  const updateAr = useCallback((idx: number) => {
+    if (!banners[idx]) return;
+    const img = new Image();
+    img.onload = () => setAr(img.naturalWidth / img.naturalHeight);
+    img.src = banners[idx].image;
+  }, [banners]);
+
   const next = useCallback(() => {
-    setCurrent((p) => (p + 1) % banners.length);
-  }, [banners.length]);
+    setCurrent((p) => {
+      const n = (p + 1) % banners.length;
+      updateAr(n);
+      return n;
+    });
+  }, [banners.length, updateAr]);
 
   const prev = useCallback(() => {
-    setCurrent((p) => (p - 1 + banners.length) % banners.length);
-  }, [banners.length]);
+    setCurrent((p) => {
+      const n = (p - 1 + banners.length) % banners.length;
+      updateAr(n);
+      return n;
+    });
+  }, [banners.length, updateAr]);
 
   useEffect(() => {
     if (banners.length < 2) return;
@@ -51,7 +72,7 @@ export default function HeroBanner() {
 
   return (
     <section className="relative bg-primary-900 overflow-hidden">
-      <div className="relative w-full" style={{ aspectRatio: '21/9' }}>
+      <div className="relative w-full" style={{ aspectRatio: String(ar) }}>
         {banners.map((banner, i) => (
           <img
             key={banner.id}
@@ -88,7 +109,7 @@ export default function HeroBanner() {
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     i === current ? 'bg-white w-5' : 'bg-white/40 hover:bg-white/60'
                   }`}
-                  onClick={() => setCurrent(i)}
+                  onClick={() => { setCurrent(i); updateAr(i); }}
                 />
               ))}
             </div>
