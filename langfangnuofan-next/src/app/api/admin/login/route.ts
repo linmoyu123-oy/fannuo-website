@@ -7,10 +7,15 @@ export const runtime = 'edge';
 export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json() as { password: string };
-    const ctx = getRequestContext();
-    const adminPassword = (ctx.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD) as string | undefined;
+    const p1 = getRequestContext().env.ADMIN_PASSWORD;
+    const p2 = (process as any).env?.ADMIN_PASSWORD;
+    const adminPassword = (p1 || p2) as string | undefined;
 
-    if (!adminPassword || password !== adminPassword) {
+    if (!adminPassword) {
+      return NextResponse.json({ error: '服务端未配置管理员密码', debug: { p1: !!p1, p2: !!p2 } }, { status: 500 });
+    }
+
+    if (password !== adminPassword) {
       return NextResponse.json({ error: '密码错误' }, { status: 401 });
     }
 
