@@ -1,6 +1,16 @@
+'use client';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
 
 export default function PublicFooter() {
+  const [info, setInfo] = useState({ phone: '', email: '', address: '' });
+
+  useEffect(() => {
+    fetch('/api/company').then(r => r.json()).then(d => {
+      if (d && typeof d === 'object') setInfo(d as Record<string, string>);
+    }).catch(() => {});
+  }, []);
+
   return (
     <footer className="bg-primary-900 text-primary-100">
       <div className="container-custom py-12">
@@ -21,9 +31,9 @@ export default function PublicFooter() {
           <div>
             <h4 className="text-white font-bold text-lg mb-4">联系方式</h4>
             <ul className="space-y-2 text-sm">
-              <li>电话：0316-XXXXXXX</li>
-              <li>邮箱：info@fangfanuo.com</li>
-              <li>地址：河北省廊坊市XXXX</li>
+              <li>电话：{info.phone || '0316-XXXXXXX'}</li>
+              <li>邮箱：{info.email || 'info@fangfanuo.com'}</li>
+              <li>地址：{info.address || '河北省廊坊市XXXX'}</li>
             </ul>
           </div>
         </div>
