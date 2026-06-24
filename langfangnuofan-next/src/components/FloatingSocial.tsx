@@ -4,16 +4,23 @@ import { useState, useEffect } from 'react';
 
 export default function FloatingSocial() {
   const [links, setLinks] = useState({ facebook_url: '', whatsapp_url: '' });
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
+    if (location.pathname.startsWith('/admin')) return;
+    setShow(true);
     fetch('/api/company')
       .then(r => r.json())
       .then(d => {
         const data = d as Record<string, string>;
-        if (data.facebook_url || data.whatsapp_url) setLinks(data as any);
+        const fb = data.facebook_url ?? '';
+        const wa = data.whatsapp_url ?? '';
+        if (fb || wa) setLinks({ facebook_url: fb, whatsapp_url: wa });
       })
       .catch(() => {});
   }, []);
+
+  if (!show) return null;
 
   const items = [];
   if (links.facebook_url) {
