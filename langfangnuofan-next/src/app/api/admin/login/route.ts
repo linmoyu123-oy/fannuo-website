@@ -7,7 +7,8 @@ export const runtime = 'edge';
 export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json() as { password: string };
-    const p1 = getRequestContext().env.ADMIN_PASSWORD;
+    const ctx = getRequestContext();
+    const p1 = ctx.env.ADMIN_PASSWORD;
     const p2 = (process as any).env?.ADMIN_PASSWORD;
     const adminPassword = (p1 || p2) as string | undefined;
 
