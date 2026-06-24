@@ -57,10 +57,10 @@ export default function HeroBanner() {
           className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
             i === current ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
-          style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: '#0f2b4f' }}
+          style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
 
       {banners.length > 1 && (
         <>
@@ -79,7 +79,7 @@ export default function HeroBanner() {
         </>
       )}
 
-      <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
+      <div className="absolute inset-0 flex items-end justify-center text-center text-white z-10 pb-12 md:pb-20">
         <div className="container-custom px-4">
           {banners[current]?.link ? (
             <a href={banners[current].link} className="inline-block">
