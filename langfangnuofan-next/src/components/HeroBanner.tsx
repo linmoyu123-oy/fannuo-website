@@ -61,11 +61,9 @@ export default function HeroBanner() {
 
   if (banners.length === 0) {
     return (
-      <section className="bg-gradient-to-br from-primary-900 to-primary-700 text-white">
-        <div className="container-custom py-24 md:py-36 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('hero.default.title')}</h1>
-          <p className="text-xl text-primary-200 max-w-2xl mx-auto">{t('hero.default.sub')}</p>
-        </div>
+      <section className="bg-gray-200 overflow-hidden">
+        <div className="w-full" style={{ aspectRatio: '2.35/1' }} />
+        <div className="bg-gray-300"><div className="container-custom px-4 py-3 md:py-4 h-10 md:h-12" /></div>
       </section>
     );
   }
@@ -82,6 +80,8 @@ export default function HeroBanner() {
               i === current ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ objectFit: 'contain', objectPosition: 'center' }}
+            loading={i === 0 ? 'eager' : 'lazy'}
+            fetchPriority={i === 0 ? 'high' : undefined}
           />
         ))}
       </div>
