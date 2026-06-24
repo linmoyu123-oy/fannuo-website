@@ -2,18 +2,21 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLang } from '@/lib/LanguageProvider';
 
-const menuItems = [
-  { href: '/admin/dashboard', label: '控制台', icon: '📊' },
-  { href: '/admin/products', label: '产品管理', icon: '📦' },
-  { href: '/admin/categories', label: '分类管理', icon: '🏷️' },
-  { href: '/admin/messages', label: '询盘管理', icon: '✉️' },
-  { href: '/admin/banners', label: '轮播图管理', icon: '🖼️' },
-  { href: '/admin/company', label: '公司信息', icon: '🏢' },
+const menuItems = (t: (k: string) => string) => [
+  { href: '/admin/dashboard', label: t('admin.sidebar.dashboard'), icon: '📊' },
+  { href: '/admin/products', label: t('admin.sidebar.products'), icon: '📦' },
+  { href: '/admin/categories', label: t('admin.sidebar.categories'), icon: '🏷️' },
+  { href: '/admin/messages', label: t('admin.sidebar.messages'), icon: '✉️' },
+  { href: '/admin/banners', label: t('admin.sidebar.banners'), icon: '🖼️' },
+  { href: '/admin/company', label: t('admin.sidebar.company'), icon: '🏢' },
 ];
 
 export default function AdminSidebar({ onLogout }: { onLogout: () => void }) {
   const pathname = usePathname();
+  const { t } = useLang();
+  const items = menuItems(t);
 
   return (
     <>
@@ -25,7 +28,7 @@ export default function AdminSidebar({ onLogout }: { onLogout: () => void }) {
           <p className="text-primary-300 text-xs mt-1">管理系统</p>
         </div>
         <nav className="flex-1 py-4 px-3 space-y-1">
-          {menuItems.map((item) => {
+          {items.map((item) => {
             const isActive = pathname === item.href;
             return (
               <Link
@@ -48,20 +51,20 @@ export default function AdminSidebar({ onLogout }: { onLogout: () => void }) {
             href="/"
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-primary-300 hover:text-white hover:bg-primary-800 transition-colors mb-1"
           >
-            <span>🌐</span> 返回前台
+            <span>🌐</span> {t('admin.sidebar.front')}
           </Link>
           <button
             onClick={onLogout}
             className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm text-primary-300 hover:text-white hover:bg-primary-800 transition-colors w-full"
           >
-            <span>🚪</span> 退出登录
+            <span>🚪</span> {t('admin.sidebar.logout')}
           </button>
         </div>
       </aside>
 
       {/* Mobile bottom nav */}
       <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 z-40 flex justify-around py-2 px-1">
-        {menuItems.slice(0, 5).map((item) => {
+        {items.slice(0, 5).map((item) => {
           const isActive = pathname === item.href;
           return (
             <Link

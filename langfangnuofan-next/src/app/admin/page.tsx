@@ -2,12 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useLang } from '@/lib/LanguageProvider';
 
 export default function AdminLoginPage() {
   const router = useRouter();
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+  const { t } = useLang();
 
   useEffect(() => {
     const token = localStorage.getItem('admin_token');
@@ -46,16 +48,16 @@ export default function AdminLoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary-900 to-primary-700">
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md mx-4">
         <div className="text-center mb-8">
-          <h1 className="text-2xl font-bold text-primary-900">管理员登录</h1>
+          <h1 className="text-2xl font-bold text-primary-900">{t('admin.login.title')}</h1>
           <p className="text-sm text-gray-500 mt-1">廊坊凡诺外贸有限公司</p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
-            <label className="block text-sm text-gray-600 mb-1.5">管理员密码</label>
+            <label className="block text-sm text-gray-600 mb-1.5">{t('admin.login.password')}</label>
             <input
               type="password"
               className="input-field"
-              placeholder="请输入密码"
+              placeholder={t('admin.login.password')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -63,7 +65,7 @@ export default function AdminLoginPage() {
           </div>
           {error && <p className="text-red-500 text-sm text-center">{error}</p>}
           <button type="submit" disabled={loading} className="btn-primary w-full py-3 disabled:opacity-60">
-            {loading ? '登录中...' : '登录'}
+            {loading ? t('admin.login.loading') : t('admin.login.submit')}
           </button>
         </form>
       </div>

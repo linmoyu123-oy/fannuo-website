@@ -3,13 +3,14 @@
 import { useState, useEffect } from 'react';
 import PublicHeader from '@/components/PublicHeader';
 import PublicFooter from '@/components/PublicFooter';
+import { useLang } from '@/lib/LanguageProvider';
 
 const defaultContent =
   '廊坊凡诺外贸有限公司成立于2020年，总部位于河北省廊坊市，是一家专业从事国际贸易的综合服务企业。公司凭借优越的地理位置和深厚的行业资源，致力于为全球客户提供高品质的产品和一站式外贸解决方案。公司业务涵盖机械制造、建筑材料、家居用品、电子配件等多个领域，产品远销欧美、东南亚、中东等国家和地区。我们秉承"诚信为本、客户至上"的经营理念，与多家国际知名企业建立了长期稳定的合作关系。';
 
 export default function AboutPage() {
   const [content, setContent] = useState('');
-  const [companyName, setCompanyName] = useState('');
+  const { t } = useLang();
 
   useEffect(() => {
     (async () => {
@@ -27,8 +28,8 @@ export default function AboutPage() {
       <PublicHeader />
       <section className="page-banner">
         <div className="container-custom">
-          <h1>关于我们</h1>
-          <p>About Us</p>
+          <h1>{t('about.banner.title')}</h1>
+          <p>{t('about.banner.sub')}</p>
         </div>
       </section>
 
@@ -37,29 +38,29 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto">
             <h2 className="text-2xl font-bold text-primary-900 mb-6 flex items-center gap-2">
               <span className="w-1 h-6 bg-primary-900 rounded-full inline-block"></span>
-              公司简介
+              {t('about.intro.title')}
             </h2>
             <div className="text-gray-600 leading-relaxed space-y-4 whitespace-pre-line">
               {content || defaultContent}
             </div>
 
-            <h2 className="text-2xl font-bold text-primary-900 mt-12 mb-6">企业文化</h2>
+            <h2 className="text-2xl font-bold text-primary-900 mt-12 mb-6">{t('about.culture.title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-primary-50 rounded-xl p-6 border border-primary-100">
-                <h3 className="font-bold text-primary-900 mb-2">使命</h3>
-                <p className="text-sm text-gray-600">让中国制造走向世界，为客户创造最大价值</p>
+                <h3 className="font-bold text-primary-900 mb-2">{t('about.culture.mission')}</h3>
+                <p className="text-sm text-gray-600">{t('about.culture.mission.desc')}</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-6 border border-primary-100">
-                <h3 className="font-bold text-primary-900 mb-2">愿景</h3>
-                <p className="text-sm text-gray-600">成为国际一流的贸易服务商</p>
+                <h3 className="font-bold text-primary-900 mb-2">{t('about.culture.vision')}</h3>
+                <p className="text-sm text-gray-600">{t('about.culture.vision.desc')}</p>
               </div>
               <div className="bg-primary-50 rounded-xl p-6 border border-primary-100">
-                <h3 className="font-bold text-primary-900 mb-2">价值观</h3>
-                <p className="text-sm text-gray-600">诚信、专业、创新、共赢</p>
+                <h3 className="font-bold text-primary-900 mb-2">{t('about.culture.value')}</h3>
+                <p className="text-sm text-gray-600">{t('about.culture.value.desc')}</p>
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-primary-900 mt-12 mb-6">为什么选择我们</h2>
+            <h2 className="text-2xl font-bold text-primary-900 mt-12 mb-6">{t('about.why.title')}</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
               {[
                 { title: '专业团队', desc: '经验丰富的外贸团队，精通国际贸易规则和流程' },

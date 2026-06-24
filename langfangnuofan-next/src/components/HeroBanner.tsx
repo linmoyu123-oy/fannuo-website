@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { useLang } from '@/lib/LanguageProvider';
 
 interface Banner {
   id: number;
@@ -12,6 +13,7 @@ interface Banner {
 export default function HeroBanner() {
   const [banners, setBanners] = useState<Banner[]>([]);
   const [current, setCurrent] = useState(0);
+  const { t } = useLang();
 
   useEffect(() => {
     fetch('/api/banners')
@@ -40,8 +42,8 @@ export default function HeroBanner() {
     return (
       <section className="bg-gradient-to-br from-primary-900 to-primary-700 text-white">
         <div className="container-custom py-24 md:py-36 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-6">廊坊凡诺外贸有限公司</h1>
-          <p className="text-xl text-primary-200 max-w-2xl mx-auto">专业外贸服务，连接全球市场</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-6">{t('hero.default.title')}</h1>
+          <p className="text-xl text-primary-200 max-w-2xl mx-auto">{t('hero.default.sub')}</p>
         </div>
       </section>
     );
@@ -91,7 +93,7 @@ export default function HeroBanner() {
             </h1>
           )}
           <p className="text-base sm:text-lg md:text-xl text-white/80 drop-shadow max-w-2xl mx-auto">
-            专业外贸服务，连接全球市场
+            {t('hero.default.sub')}
           </p>
         </div>
       </div>

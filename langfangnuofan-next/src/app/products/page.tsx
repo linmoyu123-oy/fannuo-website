@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import PublicHeader from '@/components/PublicHeader';
 import PublicFooter from '@/components/PublicFooter';
 import ProductCard from '@/components/ProductCard';
+import { useLang } from '@/lib/LanguageProvider';
 
 interface Product {
   id: number;
@@ -26,6 +27,7 @@ export default function ProductsPage() {
   const [search, setSearch] = useState('');
   const [catFilter, setCatFilter] = useState('');
   const [selected, setSelected] = useState<Product | null>(null);
+  const { t } = useLang();
 
   useEffect(() => {
     fetch('/api/products').then(r => r.json()).then(d => {
@@ -51,8 +53,8 @@ export default function ProductsPage() {
       <PublicHeader />
       <section className="page-banner">
         <div className="container-custom">
-          <h1>产品中心</h1>
-          <p>Products</p>
+          <h1>{t('products.banner.title')}</h1>
+          <p>{t('products.banner.sub')}</p>
         </div>
       </section>
 
@@ -61,13 +63,13 @@ export default function ProductsPage() {
           <div className="flex flex-col sm:flex-row gap-4 mb-8">
             <input
               type="text"
-              placeholder="搜索产品..."
+              placeholder={t('products.search')}
               className="input-field flex-1"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
             />
             <select className="select-field sm:w-48" value={catFilter} onChange={(e) => setCatFilter(e.target.value)}>
-              <option value="">全部分类</option>
+              <option value="">{t('products.all')}</option>
               {categories.map((c) => (
                 <option key={c.id} value={c.id}>{c.name}</option>
               ))}
@@ -85,7 +87,7 @@ export default function ProductsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-center text-gray-400 py-20">暂无匹配产品</p>
+            <p className="text-center text-gray-400 py-20">{t('products.empty')}</p>
           )}
         </div>
       </section>
@@ -107,7 +109,7 @@ export default function ProductsPage() {
             <p className="text-gray-600 leading-relaxed mb-6">{selected.description}</p>
             {selected.specs && (
               <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
-                <strong className="text-sm text-gray-700">规格参数</strong>
+                <strong className="text-sm text-gray-700">{t('products.specs')}</strong>
                 <pre className="text-sm text-gray-600 mt-2 whitespace-pre-wrap leading-relaxed">{selected.specs}</pre>
               </div>
             )}

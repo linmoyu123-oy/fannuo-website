@@ -1,10 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useLang } from '@/lib/LanguageProvider';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState({ products: 0, messages: 0, categories: 0, banners: 0 });
   const [recentMessages, setRecentMessages] = useState<any[]>([]);
+  const { t } = useLang();
 
   useEffect(() => {
     Promise.all([
@@ -24,10 +26,10 @@ export default function AdminDashboardPage() {
   }, []);
 
   const cards = [
-    { label: '产品总数', value: stats.products, color: 'bg-blue-500' },
-    { label: '询盘总数', value: stats.messages, color: 'bg-green-500' },
-    { label: '分类数', value: stats.categories, color: 'bg-purple-500' },
-    { label: '轮播图数', value: stats.banners, color: 'bg-orange-500' },
+    { label: t('admin.dashboard.products'), value: stats.products, color: 'bg-blue-500' },
+    { label: t('admin.dashboard.messages'), value: stats.messages, color: 'bg-green-500' },
+    { label: t('admin.dashboard.categories'), value: stats.categories, color: 'bg-purple-500' },
+    { label: t('admin.dashboard.banners'), value: stats.banners, color: 'bg-orange-500' },
   ];
 
   return (

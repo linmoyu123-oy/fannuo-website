@@ -3,18 +3,21 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useLang } from '@/lib/LanguageProvider';
 
-const navLinks = [
-  { href: '/', label: '首页' },
-  { href: '/about', label: '关于我们' },
-  { href: '/products', label: '产品中心' },
-  { href: '/contact', label: '联系我们' },
+const navLinks = (t: (k: string) => string) => [
+  { href: '/', label: t('nav.home') },
+  { href: '/about', label: t('nav.about') },
+  { href: '/products', label: t('nav.products') },
+  { href: '/contact', label: t('nav.contact') },
 ];
 
 export default function PublicHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const { t, toggleLang, lang } = useLang();
+  const links = navLinks(t);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -28,11 +31,11 @@ export default function PublicHeader() {
     }`}>
       <div className="container-custom">
         <div className="flex items-center justify-between h-16">
-          <Link href="/" className="text-xl font-bold tracking-wider">
+          <Link href="/" className="text-xl font-bold tracking-wider whitespace-nowrap">
             廊坊凡诺外贸有限公司
           </Link>
           <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((link) => {
+            {links.map((link) => {
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
               return (
                 <Link
@@ -46,24 +49,38 @@ export default function PublicHeader() {
                 </Link>
               );
             })}
+            <button
+              onClick={toggleLang}
+              className="ml-2 px-3 py-1.5 rounded-lg text-xs font-medium border border-primary-400 text-primary-100 hover:bg-primary-700 transition-colors"
+            >
+              {t('lang.switch')}
+            </button>
           </nav>
-          <button
-            className="md:hidden p-2 rounded-lg hover:bg-primary-800"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="菜单"
-          >
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              {mobileOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
+          <div className="flex items-center gap-2 md:hidden">
+            <button
+              onClick={toggleLang}
+              className="px-2.5 py-1.5 rounded-lg text-xs font-medium border border-primary-400 text-primary-100"
+            >
+              {t('lang.switch')}
+            </button>
+            <button
+              className="p-2 rounded-lg hover:bg-primary-800"
+              onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label="菜单"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                {mobileOpen ? (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                ) : (
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                )}
+              </svg>
+            </button>
+          </div>
         </div>
         {mobileOpen && (
           <nav className="md:hidden pb-4 border-t border-primary-700 pt-2">
-            {navLinks.map((link) => {
+            {links.map((link) => {
               const isActive = pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href));
               return (
                 <Link
