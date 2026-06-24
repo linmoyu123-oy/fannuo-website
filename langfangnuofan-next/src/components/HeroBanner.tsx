@@ -82,7 +82,7 @@ export default function HeroBanner() {
       <div className="absolute inset-0 flex items-center justify-center text-center text-white z-10">
         <div className="container-custom px-4">
           {banners[current]?.link ? (
-            <a href={banners[current].link!} className="inline-block">
+            <a href={banners[current].link} className="inline-block">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-4 drop-shadow-lg leading-tight">
                 {banners[current]?.title || '廊坊凡诺外贸有限公司'}
               </h1>

@@ -10,8 +10,8 @@ export async function POST(request: NextRequest) {
     const ctx = getRequestContext();
     const db = ctx.env.DB;
 
-    const envPassword = ctx.env.ADMIN_PASSWORD || (process as any).env?.ADMIN_PASSWORD;
-    let adminPassword = envPassword as string | undefined;
+    const envPassword = ctx.env.ADMIN_PASSWORD as string | undefined;
+    let adminPassword = envPassword;
 
     if (!adminPassword) {
       const row = await db.prepare("SELECT value FROM company_info WHERE key = 'admin_password'").first() as { value?: string } | null;

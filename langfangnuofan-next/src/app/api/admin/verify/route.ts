@@ -13,7 +13,7 @@ export async function GET(request: NextRequest) {
   try {
     const db = getRequestContext().env.DB;
     const row = await db.prepare(
-      'SELECT id FROM admin_sessions WHERE token = ? AND expires_at > datetime(?)'
+      'SELECT id FROM admin_sessions WHERE token = ? AND expires_at > ?'
     ).bind(token, new Date().toISOString()).first();
 
     if (!row) {

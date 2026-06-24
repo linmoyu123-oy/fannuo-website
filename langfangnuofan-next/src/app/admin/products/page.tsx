@@ -70,23 +70,32 @@ export default function AdminProductsPage() {
     setShowModal(true);
   };
 
+  const [error, setError] = useState('');
+
   const handleDelete = async (id: number) => {
     if (!window.confirm('确定删除此产品？')) return;
     const token = localStorage.getItem('admin_token');
-    await fetch(`/api/products/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    const res = await fetch(`/api/products/${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return alert('删除失败');
     loadData();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     const token = localStorage.getItem('admin_token');
     const url = editing ? `/api/products/${editing.id}` : '/api/products';
     const method = editing ? 'PUT' : 'POST';
-    await fetch(url, {
+    const res = await fetch(url, {
       method,
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
     });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setError((data as { error?: string }).error || '操作失败');
+      return;
+    }
     setShowModal(false);
     loadData();
   };
@@ -143,6 +152,7 @@ export default function AdminProductsPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="float-right text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setShowModal(false)}>&times;</button>
             <h2 className="text-xl font-bold text-gray-800 mb-6">{editing ? '编辑产品' : '添加产品'}</h2>
+            {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-lg">{error}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">产品名称</label>

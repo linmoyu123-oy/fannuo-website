@@ -30,8 +30,8 @@ export async function POST(request: NextRequest) {
     }
     const db = getRequestContext().env.DB;
     const { success } = await db.prepare(`
-      INSERT INTO products (category_id, title, description, image, specs, updated_at)
-      VALUES (?, ?, ?, ?, ?, datetime('now'))
+      INSERT INTO products (category_id, title, description, image, specs, created_at, updated_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'), datetime('now'))
     `).bind(category_id || 0, title, description || '', image || '', specs || '').run();
 
     if (success) {

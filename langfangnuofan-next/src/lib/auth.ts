@@ -18,11 +18,6 @@ export function getExpiresAt(): string {
   return d.toISOString();
 }
 
-export function getAdminPassword(): string {
-  const ctx = getRequestContext();
-  return (ctx.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || '') as string;
-}
-
 export function extractToken(request: Request): string | null {
   const auth = request.headers.get('Authorization') || '';
   if (auth.startsWith('Bearer ')) return auth.slice(7);
@@ -36,7 +31,7 @@ export async function requireAdmin(request: Request): Promise<boolean> {
   try {
     const db = getRequestContext().env.DB;
     const row = await db.prepare(
-      'SELECT id FROM admin_sessions WHERE token = ? AND expires_at > datetime(?)'
+      'SELECT id FROM admin_sessions WHERE token = ? AND expires_at > ?'
     ).bind(token, new Date().toISOString()).first();
     return !!row;
   } catch {

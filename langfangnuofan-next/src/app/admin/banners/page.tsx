@@ -16,6 +16,7 @@ export default function AdminBannersPage() {
   const [showModal, setShowModal] = useState(false);
   const [editing, setEditing] = useState<Banner | null>(null);
   const [form, setForm] = useState({ title: '', image: '', link: '' });
+  const [error, setError] = useState('');
 
   const loadData = async () => {
     const data = await fetch('/api/banners').then(r => r.json()).catch(() => []);
@@ -62,25 +63,26 @@ export default function AdminBannersPage() {
   const handleDelete = async (id: number) => {
     if (!window.confirm('确定删除？')) return;
     const token = localStorage.getItem('admin_token');
-    await fetch(`/api/banners?id=${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    const res = await fetch(`/api/banners?id=${id}`, { method: 'DELETE', headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return alert('删除失败');
     loadData();
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     const token = localStorage.getItem('admin_token');
-    if (editing) {
-      await fetch(`/api/banners?id=${editing.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
-      });
-    } else {
-      await fetch('/api/banners', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
-        body: JSON.stringify(form),
-      });
+    const url = editing ? `/api/banners?id=${editing.id}` : '/api/banners';
+    const method = editing ? 'PUT' : 'POST';
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
+      body: JSON.stringify(form),
+    });
+    if (!res.ok) {
+      const data = await res.json().catch(() => ({}));
+      setError((data as { error?: string }).error || '操作失败');
+      return;
     }
     setShowModal(false);
     loadData();
@@ -133,6 +135,7 @@ export default function AdminBannersPage() {
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
             <button className="float-right text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setShowModal(false)}>&times;</button>
             <h2 className="text-xl font-bold text-gray-800 mb-6">{editing ? '编辑轮播图' : '添加轮播图'}</h2>
+            {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-lg">{error}</div>}
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">图片 URL *</label>
