@@ -11,6 +11,8 @@ const defaultFields = [
   { key: 'phone', label: '电话', type: 'text' },
   { key: 'email', label: '邮箱', type: 'text' },
   { key: 'working_hours', label: '工作时间', type: 'text' },
+  { key: 'facebook_url', label: 'Facebook 链接', type: 'text' },
+  { key: 'whatsapp_url', label: 'WhatsApp 链接', type: 'text' },
 ];
 
 export default function AdminCompanyPage() {

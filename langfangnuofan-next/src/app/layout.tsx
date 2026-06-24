@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import './globals.css';
 import { LanguageProvider } from '@/lib/LanguageProvider';
+import FloatingSocial from '@/components/FloatingSocial';
 
 export const metadata: Metadata = {
   title: '廊坊凡诺外贸有限公司 | Langfang Fannuo Foreign Trade',
@@ -12,6 +13,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="zh-CN">
       <body className="min-h-screen">
         <LanguageProvider>{children}</LanguageProvider>
+        <FloatingSocial />
       </body>
     </html>
   );
