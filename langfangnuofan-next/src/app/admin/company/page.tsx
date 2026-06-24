@@ -19,6 +19,7 @@ export default function AdminCompanyPage() {
   const [form, setForm] = useState<Record<string, string>>({});
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     (async () => {
@@ -33,13 +34,19 @@ export default function AdminCompanyPage() {
     e.preventDefault();
     setSaving(true);
     setSaved(false);
+    setError('');
     const token = localStorage.getItem('admin_token');
-    await fetch('/api/company', {
+    const res = await fetch('/api/company', {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` },
       body: JSON.stringify(form),
     });
     setSaving(false);
+    if (!res.ok) {
+      const d = await res.json().catch(() => ({}));
+      setError((d as any).error || '保存失败，请重新登录');
+      return;
+    }
     setSaved(true);
     setTimeout(() => setSaved(false), 2000);
   };
@@ -67,6 +74,7 @@ export default function AdminCompanyPage() {
               )}
             </div>
           ))}
+          {error && <div className="bg-red-50 text-red-600 text-sm px-4 py-2 rounded-lg">{error}</div>}
           <div className="flex items-center gap-4 pt-2">
             <button type="submit" disabled={saving} className="btn-primary disabled:opacity-60">
               {saving ? '保存中...' : '保存修改'}
