@@ -3,4 +3,7 @@ pages_build_output_dir = ".vercel/output/static"
 compatibility_date = "2026-06-01"
 compatibility_flags = ["nodejs_compat"]
 
-# D1 binding configured via Cloudflare Pages Dashboard (Settings > Functions > D1 Database Bindings)
+[[d1_databases]]
+binding = "DB"
+database_name = "langfangnuofan-db"
+database_id = "89f39b48-19cc-477c-8e0f-16dcfca08201"
