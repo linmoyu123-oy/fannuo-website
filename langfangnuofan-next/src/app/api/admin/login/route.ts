@@ -8,12 +8,18 @@ export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json() as { password: string };
     const ctx = getRequestContext();
-    const p1 = ctx.env.ADMIN_PASSWORD;
-    const p2 = (process as any).env?.ADMIN_PASSWORD;
-    const adminPassword = (p1 || p2) as string | undefined;
+    const db = ctx.env.DB;
+
+    const envPassword = ctx.env.ADMIN_PASSWORD || (process as any).env?.ADMIN_PASSWORD;
+    let adminPassword = envPassword as string | undefined;
 
     if (!adminPassword) {
-      return NextResponse.json({ error: '服务端未配置管理员密码', debug: { p1: !!p1, p2: !!p2 } }, { status: 500 });
+      const row = await db.prepare("SELECT value FROM company_info WHERE key = 'admin_password'").first() as { value?: string } | null;
+      adminPassword = row?.value;
+    }
+
+    if (!adminPassword) {
+      return NextResponse.json({ error: '请先在 D1 数据库 company_info 表中设置 admin_password' }, { status: 500 });
     }
 
     if (password !== adminPassword) {
@@ -23,7 +29,6 @@ export async function POST(request: NextRequest) {
     const token = generateToken();
     const expiresAt = getExpiresAt();
 
-    const db = ctx.env.DB;
     await db.prepare(
       'INSERT INTO admin_sessions (token, expires_at) VALUES (?, ?)'
     ).bind(token, expiresAt).run();
