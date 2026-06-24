@@ -47,6 +47,8 @@ const whyItems = (t: (k: string) => string) => [
 
 export default function HomePage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [aboutLoaded, setAboutLoaded] = useState(false);
+  const [aboutText, setAboutText] = useState('');
   const { t } = useLang();
 
   useEffect(() => {
@@ -57,11 +59,9 @@ export default function HomePage() {
       try {
         const res = await fetch('/api/company');
         const d = await res.json() as Record<string, string>;
-        if (d.about_content) {
-          const el = document.getElementById('aboutPreview');
-          if (el) el.textContent = d.about_content;
-        }
+        if (d.about_content) setAboutText(d.about_content);
       } catch {}
+      setAboutLoaded(true);
     })();
   }, []);
 
@@ -75,7 +75,9 @@ export default function HomePage() {
           <div className="container-custom text-center max-w-3xl mx-auto">
             <h2 className="section-title">{t('home.about.title')}</h2>
             <p id="aboutPreview" className="text-gray-600 leading-relaxed mb-10 text-lg">
-              廊坊凡诺外贸有限公司是一家专业的国际贸易企业，致力于为客户提供优质的产品和卓越的服务。公司位于河北省廊坊市，依托京津冀地区的产业优势，将中国制造推向全球市场。
+              {aboutText || (aboutLoaded ? t('home.about.empty') : (
+                <><span className="inline-block bg-gray-200 rounded w-full h-5 mb-2 animate-pulse" /><span className="inline-block bg-gray-200 rounded w-3/4 h-5 animate-pulse" /></>
+              ))}
             </p>
             <Link href="/about" className="btn-primary">{t('home.about.more')}</Link>
           </div>
@@ -95,7 +97,17 @@ export default function HomePage() {
                 ))}
               </div>
             ) : (
-              <p className="text-center text-gray-400 py-12">{t('home.products.empty')}</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
+                {[1,2,3,4].map(i => (
+                  <div key={i} className="card-static animate-pulse">
+                    <div className="bg-gray-200 h-48 rounded-t-lg" />
+                    <div className="p-4 space-y-2">
+                      <div className="bg-gray-200 rounded h-4 w-3/4" />
+                      <div className="bg-gray-200 rounded h-3 w-1/2" />
+                    </div>
+                  </div>
+                ))}
+              </div>
             )}
             <div className="text-center mt-12">
               <Link href="/products" className="btn-secondary">{t('home.products.all')}</Link>
