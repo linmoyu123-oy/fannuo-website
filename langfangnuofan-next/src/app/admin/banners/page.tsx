@@ -24,6 +24,14 @@ export default function AdminBannersPage() {
 
   useEffect(() => { loadData(); }, []);
 
+  const handleFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setForm(f => ({ ...f, image: reader.result as string }));
+    reader.readAsDataURL(file);
+  };
+
   const openCreate = () => {
     setEditing(null);
     setForm({ title: '', image: '', link: '' });
@@ -113,7 +121,8 @@ export default function AdminBannersPage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label className="block text-sm text-gray-600 mb-1">图片 URL *</label>
-                <input className="input-field" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} required />
+                <input className="input-field mb-2" value={form.image} onChange={(e) => setForm({ ...form, image: e.target.value })} required />
+                <input type="file" accept="image/*" className="text-sm text-gray-500" onChange={handleFile} />
               </div>
               <div>
                 <label className="block text-sm text-gray-600 mb-1">标题</label>
