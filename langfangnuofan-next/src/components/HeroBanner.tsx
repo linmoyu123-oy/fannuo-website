@@ -89,17 +89,9 @@ export default function HeroBanner() {
       <div className="bg-black/60 backdrop-blur-sm">
         <div className="container-custom px-4 py-3 md:py-4 flex items-center justify-between">
           <div className="min-w-0 flex-1">
-            {banners[current]?.link ? (
-              <a href={banners[current].link} className="text-white hover:text-primary-200 transition-colors">
-                <h2 className="text-base md:text-lg font-semibold truncate">
-                  {banners[current]?.title || t('hero.default.title')}
-                </h2>
-              </a>
-            ) : (
               <h2 className="text-base md:text-lg font-semibold text-white truncate">
                 {banners[current]?.title || t('hero.default.title')}
               </h2>
-            )}
           </div>
           {banners.length > 1 && (
             <div className="flex gap-1.5 flex-shrink-0 ml-4">
