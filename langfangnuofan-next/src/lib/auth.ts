@@ -20,7 +20,7 @@ export function getExpiresAt(): string {
 
 export function getAdminPassword(): string {
   const ctx = getRequestContext();
-  return ctx.env.ADMIN_PASSWORD || '';
+  return (ctx.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD || '') as string;
 }
 
 export function extractToken(request: Request): string | null {

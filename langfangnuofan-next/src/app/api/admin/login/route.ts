@@ -8,7 +8,7 @@ export async function POST(request: NextRequest) {
   try {
     const { password } = await request.json() as { password: string };
     const ctx = getRequestContext();
-    const adminPassword = ctx.env.ADMIN_PASSWORD as string | undefined;
+    const adminPassword = (ctx.env.ADMIN_PASSWORD || process.env.ADMIN_PASSWORD) as string | undefined;
 
     if (!adminPassword || password !== adminPassword) {
       return NextResponse.json({ error: '密码错误' }, { status: 401 });
