@@ -57,7 +57,7 @@ export default function HeroBanner() {
           className={`absolute inset-0 transition-all duration-1000 ease-in-out ${
             i === current ? 'opacity-100 scale-100' : 'opacity-0 scale-105'
           }`}
-          style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+          style={{ backgroundImage: `url(${banner.image})`, backgroundSize: 'contain', backgroundPosition: 'center', backgroundRepeat: 'no-repeat', backgroundColor: '#0f2b4f' }}
         />
       ))}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/10" />
