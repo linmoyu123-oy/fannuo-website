@@ -28,7 +28,22 @@ export default function AdminBannersPage() {
     const file = e.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => setForm(f => ({ ...f, image: reader.result as string }));
+    reader.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const maxW = 1920;
+        const maxH = 1080;
+        let w = img.width, h = img.height;
+        if (w > maxW) { h = h * maxW / w; w = maxW; }
+        if (h > maxH) { w = w * maxH / h; h = maxH; }
+        const c = document.createElement('canvas');
+        c.width = w; c.height = h;
+        const ctx = c.getContext('2d')!;
+        ctx.drawImage(img, 0, 0, w, h);
+        setForm(f => ({ ...f, image: c.toDataURL('image/jpeg', 0.8) }));
+      };
+      img.src = reader.result as string;
+    };
     reader.readAsDataURL(file);
   };
 
