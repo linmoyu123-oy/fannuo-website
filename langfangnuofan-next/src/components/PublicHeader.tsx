@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -14,9 +14,18 @@ const navLinks = [
 export default function PublicHeader() {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
   return (
-    <header className="bg-primary-900 text-white sticky top-0 z-40 shadow-lg">
+    <header className={`sticky top-0 z-40 transition-all duration-300 ${
+      scrolled ? 'bg-primary-900/95 backdrop-blur-md shadow-xl' : 'bg-primary-900 shadow-lg'
+    }`}>
       <div className="container-custom">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="text-xl font-bold tracking-wider">

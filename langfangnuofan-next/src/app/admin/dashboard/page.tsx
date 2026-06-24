@@ -32,25 +32,26 @@ export default function AdminDashboardPage() {
 
   return (
     <div className="space-y-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        {cards.map((card) => (
-          <div key={card.label} className="card p-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+        {cards.map((card, i) => (
+          <div key={card.label} className={`stat-card animate-fade-in-up animate-delay-${i + 1}`}>
             <div className="flex items-center gap-4">
-              <div className={`w-12 h-12 ${card.color} rounded-xl flex items-center justify-center text-white text-lg font-bold`}>
+              <div className={`w-14 h-14 ${card.color} rounded-2xl flex items-center justify-center text-white text-xl font-bold shadow-lg`}>
                 {card.value}
               </div>
               <div>
                 <p className="text-sm text-gray-500">{card.label}</p>
-                <p className="text-2xl font-bold text-gray-800">{card.value}</p>
+                <p className="text-3xl font-bold text-gray-800">{card.value}</p>
               </div>
             </div>
           </div>
         ))}
       </div>
 
-      <div className="card">
-        <div className="px-6 py-4 border-b border-gray-100">
+      <div className="card-static">
+        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
           <h3 className="font-semibold text-gray-800">最新询盘</h3>
+          <span className="badge-primary">{recentMessages.length} 条</span>
         </div>
         <div className="table-wrap">
           <table className="data-table">
@@ -69,7 +70,7 @@ export default function AdminDashboardPage() {
                   <td className="text-gray-500">{new Date(m.created_at).toLocaleString()}</td>
                 </tr>
               )) : (
-                <tr><td colSpan={3} className="text-center text-gray-400 py-8">暂无询盘</td></tr>
+                <tr><td colSpan={3} className="text-center text-gray-400 py-12">暂无询盘</td></tr>
               )}
             </tbody>
           </table>

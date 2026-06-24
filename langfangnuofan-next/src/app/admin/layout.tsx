@@ -50,7 +50,10 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
-        <div className="text-gray-400">加载中...</div>
+        <div className="flex flex-col items-center gap-3">
+          <div className="w-8 h-8 border-2 border-primary-900 border-t-transparent rounded-full animate-spin" />
+          <div className="text-gray-400 text-sm">加载中...</div>
+        </div>
       </div>
     );
   }

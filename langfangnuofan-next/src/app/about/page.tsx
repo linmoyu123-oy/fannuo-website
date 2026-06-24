@@ -35,7 +35,10 @@ export default function AboutPage() {
       <section className="py-16 md:py-20">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl font-bold text-primary-900 mb-6">公司简介</h2>
+            <h2 className="text-2xl font-bold text-primary-900 mb-6 flex items-center gap-2">
+              <span className="w-1 h-6 bg-primary-900 rounded-full inline-block"></span>
+              公司简介
+            </h2>
             <div className="text-gray-600 leading-relaxed space-y-4 whitespace-pre-line">
               {content || defaultContent}
             </div>

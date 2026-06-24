@@ -13,24 +13,28 @@ interface Product {
 export default function ProductCard({ product, onDetail }: { product: Product; onDetail?: (p: Product) => void }) {
   return (
     <div
-      className="card cursor-pointer hover:shadow-md hover:-translate-y-1 transition-all duration-200"
+      className="card group cursor-pointer"
       onClick={() => onDetail?.(product)}
     >
-      <div className="h-48 bg-gray-100 flex items-center justify-center overflow-hidden">
+      <div className="h-52 bg-gray-100 flex items-center justify-center overflow-hidden relative">
         {product.image ? (
-          <img src={product.image} alt={product.title} className="w-full h-full object-cover" loading="lazy" />
+          <img
+            src={product.image}
+            alt={product.title}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+            loading="lazy"
+          />
         ) : (
           <span className="text-gray-400 text-sm">暂无图片</span>
         )}
-      </div>
-      <div className="p-4">
         {product.category_name && (
-          <span className="inline-block bg-primary-50 text-primary-700 text-xs px-2.5 py-1 rounded-full mb-2">
-            {product.category_name}
-          </span>
+          <span className="absolute top-3 left-3 badge-primary">{product.category_name}</span>
         )}
-        <h3 className="font-semibold text-gray-900 mb-1.5 truncate">{product.title}</h3>
-        <p className="text-sm text-gray-500 line-clamp-2">{product.description}</p>
+        <div className="absolute inset-0 bg-primary-900/0 group-hover:bg-primary-900/10 transition-colors duration-300" />
+      </div>
+      <div className="p-5">
+        <h3 className="font-semibold text-gray-900 mb-2 truncate group-hover:text-primary-700 transition-colors">{product.title}</h3>
+        <p className="text-sm text-gray-500 line-clamp-2 leading-relaxed">{product.description}</p>
       </div>
     </div>
   );

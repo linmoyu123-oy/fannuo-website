@@ -93,22 +93,22 @@ export default function ProductsPage() {
       {/* Detail Modal */}
       {selected && (
         <div className="modal-overlay" onClick={() => setSelected(null)}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <button className="float-right text-gray-400 hover:text-gray-700 text-2xl" onClick={() => setSelected(null)}>&times;</button>
+          <div className="modal-content max-w-2xl" onClick={(e) => e.stopPropagation()}>
+            <button className="float-right text-gray-400 hover:text-gray-600 hover:rotate-90 transition-all duration-300 text-2xl" onClick={() => setSelected(null)}>&times;</button>
             {selected.image && (
-              <img src={selected.image} alt={selected.title} className="w-full h-64 object-cover rounded-lg mb-4" />
+              <img src={selected.image} alt={selected.title} className="w-full h-72 object-cover rounded-xl mb-6 shadow-md" />
             )}
-            <h2 className="text-2xl font-bold text-primary-900 mb-2">{selected.title}</h2>
+            <h2 className="text-2xl font-bold text-primary-900 mb-3">{selected.title}</h2>
             {selected.category_name && (
-              <span className="inline-block bg-primary-50 text-primary-700 text-xs px-2.5 py-1 rounded-full mb-3">
+              <span className="inline-block bg-primary-50 text-primary-700 text-xs px-3 py-1 rounded-full mb-4">
                 {selected.category_name}
               </span>
             )}
-            <p className="text-gray-600 leading-relaxed mb-4">{selected.description}</p>
+            <p className="text-gray-600 leading-relaxed mb-6">{selected.description}</p>
             {selected.specs && (
-              <div className="bg-gray-50 rounded-lg p-4">
+              <div className="bg-gray-50 rounded-xl p-5 border border-gray-200">
                 <strong className="text-sm text-gray-700">规格参数</strong>
-                <pre className="text-sm text-gray-600 mt-2 whitespace-pre-wrap">{selected.specs}</pre>
+                <pre className="text-sm text-gray-600 mt-2 whitespace-pre-wrap leading-relaxed">{selected.specs}</pre>
               </div>
             )}
           </div>

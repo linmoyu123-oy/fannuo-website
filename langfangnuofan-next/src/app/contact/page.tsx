@@ -65,14 +65,17 @@ export default function ContactPage() {
               <h2 className="text-2xl font-bold text-primary-900 mb-8">联系方式</h2>
               <div className="space-y-6">
                 {[
-                  { label: '地址', value: companyInfo.address || '河北省廊坊市广阳区XXXX' },
-                  { label: '电话', value: companyInfo.phone || '0316-XXXXXXX' },
-                  { label: '邮箱', value: companyInfo.email || 'info@fangfanuo.com' },
-                  { label: '工作时间', value: companyInfo.working_hours || '周一至周五：9:00 - 18:00' },
+                  { label: '地址', value: companyInfo.address || '河北省廊坊市广阳区XXXX', icon: '📍' },
+                  { label: '电话', value: companyInfo.phone || '0316-XXXXXXX', icon: '📞' },
+                  { label: '邮箱', value: companyInfo.email || 'info@fangfanuo.com', icon: '✉️' },
+                  { label: '工作时间', value: companyInfo.working_hours || '周一至周五：9:00 - 18:00', icon: '🕐' },
                 ].map((item) => (
-                  <div key={item.label}>
-                    <h3 className="text-sm text-gray-400 mb-1">{item.label}</h3>
-                    <p className="text-gray-800">{item.value}</p>
+                  <div key={item.label} className="flex items-start gap-4 p-4 bg-gray-50 rounded-xl hover:bg-primary-50 transition-colors duration-200">
+                    <span className="text-2xl flex-shrink-0">{item.icon}</span>
+                    <div>
+                      <h3 className="text-sm text-gray-500 mb-0.5">{item.label}</h3>
+                      <p className="text-gray-800 font-medium">{item.value}</p>
+                    </div>
                   </div>
                 ))}
               </div>
