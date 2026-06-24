@@ -7,7 +7,7 @@ export default function PublicFooter() {
 
   useEffect(() => {
     fetch('/api/company').then(r => r.json()).then(d => {
-      if (d && typeof d === 'object') setInfo(d as Record<string, string>);
+      if (d && typeof d === 'object') setInfo(d as { phone: string; email: string; address: string });
     }).catch(() => {});
   }, []);
 
