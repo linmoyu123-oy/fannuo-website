@@ -18,7 +18,6 @@ export default function AboutPage() {
         const res = await fetch('/api/company');
         const d = await res.json() as Record<string, string>;
         if (d.about_content) setContent(d.about_content);
-        if (d.company_name) setCompanyName(d.company_name);
       } catch {}
     })();
   }, []);
