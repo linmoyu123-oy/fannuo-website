@@ -8,6 +8,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'nav.contact': '联系我们',
 
     'home.about.title': '关于我们',
+    'home.about.empty': '暂无公司介绍',
     'home.about.more': '了解更多 →',
     'home.products.title': '产品展示',
     'home.products.empty': '暂无产品数据',
@@ -25,6 +26,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'about.banner.title': '关于我们',
     'about.banner.sub': 'About Us',
     'about.intro.title': '公司简介',
+    'about.intro.empty': '暂无公司介绍',
     'about.culture.title': '企业文化',
     'about.culture.mission': '使命',
     'about.culture.mission.desc': '让中国制造走向世界，为客户创造最大价值',
@@ -163,6 +165,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'nav.contact': 'Contact',
 
     'home.about.title': 'About Us',
+    'home.about.empty': 'No company info yet',
     'home.about.more': 'Learn More →',
     'home.products.title': 'Products',
     'home.products.empty': 'No products yet',
@@ -180,6 +183,7 @@ export const translations: Record<Lang, Record<string, string>> = {
     'about.banner.title': 'About Us',
     'about.banner.sub': 'About Us',
     'about.intro.title': 'Company Profile',
+    'about.intro.empty': 'No company info yet',
     'about.culture.title': 'Corporate Culture',
     'about.culture.mission': 'Mission',
     'about.culture.mission.desc': 'Bring Chinese manufacturing to the world',

@@ -5,11 +5,9 @@ import PublicHeader from '@/components/PublicHeader';
 import PublicFooter from '@/components/PublicFooter';
 import { useLang } from '@/lib/LanguageProvider';
 
-const defaultContent =
-  '廊坊凡诺外贸有限公司成立于2020年，总部位于河北省廊坊市，是一家专业从事国际贸易的综合服务企业。公司凭借优越的地理位置和深厚的行业资源，致力于为全球客户提供高品质的产品和一站式外贸解决方案。公司业务涵盖机械制造、建筑材料、家居用品、电子配件等多个领域，产品远销欧美、东南亚、中东等国家和地区。我们秉承"诚信为本、客户至上"的经营理念，与多家国际知名企业建立了长期稳定的合作关系。';
-
 export default function AboutPage() {
   const [content, setContent] = useState('');
+  const [loaded, setLoaded] = useState(false);
   const { t } = useLang();
 
   useEffect(() => {
@@ -19,6 +17,7 @@ export default function AboutPage() {
         const d = await res.json() as Record<string, string>;
         if (d.about_content) setContent(d.about_content);
       } catch {}
+      setLoaded(true);
     })();
   }, []);
 
@@ -40,7 +39,9 @@ export default function AboutPage() {
               {t('about.intro.title')}
             </h2>
             <div className="text-gray-600 leading-relaxed space-y-4 whitespace-pre-line">
-              {content || defaultContent}
+              {loaded ? (content || t('about.intro.empty')) : (
+                <><span className="inline-block bg-gray-200 rounded w-full h-5 mb-2 animate-pulse" /><span className="inline-block bg-gray-200 rounded w-full h-5 mb-2 animate-pulse" /><span className="inline-block bg-gray-200 rounded w-2/3 h-5 animate-pulse" /></>
+              )}
             </div>
 
             <h2 className="text-2xl font-bold text-primary-900 mt-12 mb-6">{t('about.culture.title')}</h2>
